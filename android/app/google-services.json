@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779231209738",
+    "project_id": "thuchanh3-bai1",
+    "storage_bucket": "thuchanh3-bai1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779231209738:android:ff8ecfce63eb286c96b2f3",
+        "android_client_info": {
+          "package_name": "com.example.thuchanh3_bai1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO2SRqfaT-DQAAytNuSrfMAWTb7yiZQpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
