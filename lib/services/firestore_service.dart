@@ -17,10 +17,10 @@ class FirestoreService {
         .orderBy('date', descending: true)
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs
-              .map((doc) => TransactionModel.fromFirestore(doc))
-              .toList();
-        });
+      return snapshot.docs
+          .map((doc) => TransactionModel.fromFirestore(doc))
+          .toList();
+    });
   }
 
   // Delete transaction
@@ -38,21 +38,28 @@ class FirestoreService {
     }
   }
 
-  // Get transactions for analytics
+  // Get transactions for analytics - FIXED VERSION
   Future<List<TransactionModel>> getTransactionsForPeriod(
     String userId,
     DateTime startDate,
     DateTime endDate,
   ) async {
+    // Query all transactions for the user first
     QuerySnapshot snapshot = await _db
         .collection('transactions')
         .where('userId', isEqualTo: userId)
-        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startDate))
-        .where('date', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
         .get();
 
-    return snapshot.docs
+    // Filter by date in memory to avoid composite index requirement
+    List<TransactionModel> allTransactions = snapshot.docs
         .map((doc) => TransactionModel.fromFirestore(doc))
         .toList();
+
+    // Filter by date range
+    return allTransactions.where((transaction) {
+      return transaction.date
+              .isAfter(startDate.subtract(const Duration(days: 1))) &&
+          transaction.date.isBefore(endDate.add(const Duration(days: 1)));
+    }).toList();
   }
 }
